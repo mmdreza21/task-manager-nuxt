@@ -4,7 +4,7 @@
 
     <v-row>
       <!-- Star Blaster Navigation Card -->
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="4">
         <v-card class="glass-card pa-4">
           <v-card-title class="text-h5"> Star Blaster </v-card-title>
 
@@ -29,7 +29,8 @@
       </v-col>
 
       <!-- The Valkyrie Navigation Card -->
-      <v-col cols="12" md="6">
+
+      <v-col cols="12" md="4">
         <v-card class="glass-card pa-4">
           <v-card-title class="text-h5"> The Valkyrie </v-card-title>
 
@@ -49,6 +50,31 @@
 
           <v-card-actions>
             <v-btn class="glass-btn" to="/games/TheValkyrie"> Play Now </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-card class="glass-card pa-4">
+          <v-card-title class="text-h5"> Rocket Booster </v-card-title>
+
+          <v-divider class="glass-divider"></v-divider>
+
+          <v-card-text>
+            <p>
+              The Valkyrie is a 2D action-adventure platformer created in my
+              free time. Explore levels, defeat enemies, and overcome classic
+              platforming challenges.
+            </p>
+
+            <div class="mt-4">
+              <span class="glass-chip">Platformer</span>
+            </div>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-btn class="glass-btn" to="/games/RockerBooster">
+              Play Now
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
