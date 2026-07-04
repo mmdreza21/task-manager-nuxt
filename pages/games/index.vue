@@ -21,6 +21,13 @@ const games = [
     genre: "Physics • Space • Arcade",
     route: "/games/RocketBooster",
   },
+  {
+    title: "Echoes of Eldoria",
+    description:
+      "Echoes of Eldoria is a 2D top-down action RPG built with Unity. Explore handcrafted environments, battle enemies in real-time combat, discover weapons and inventory upgrades, travel seamlessly between areas, and face challenging bullet-hell encounters. The project showcases scalable game architecture, combat systems, scene transitions, lighting, inventory management, and polished gameplay mechanics.",
+    genre: "Action RPG",
+    route: "/games/EchoesOfEldoria",
+  },
 ];
 </script>
 
@@ -30,7 +37,9 @@ const games = [
 
     <v-row>
       <v-col v-for="game in games" :key="game.title" cols="12" md="4">
-        <v-card class="glass-card pa-4 fill-height">
+        <v-card
+          class="glass-card pa-4 fill-height d-flex flex-column justify-space-between"
+        >
           <v-card-title class="text-h5">
             {{ game.title }}
           </v-card-title>
@@ -41,17 +50,20 @@ const games = [
             <p>
               {{ game.description }}
             </p>
-
-            <div class="mt-4">
-              <span class="glass-chip">
-                {{ game.genre }}
-              </span>
-            </div>
           </v-card-text>
 
           <v-spacer />
 
-          <v-card-actions>
+          <v-card-actions
+            class="d-flex flex-column align-start justify-space-between"
+          >
+            <div>
+              <div class="my-4">
+                <span class="glass-chip">
+                  {{ game.genre }}
+                </span>
+              </div>
+            </div>
             <v-btn class="glass-btn" :to="game.route"> Play Now </v-btn>
           </v-card-actions>
         </v-card>

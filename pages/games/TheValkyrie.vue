@@ -2,97 +2,104 @@
 import { onMounted, onUnmounted, ref } from "vue";
 
 const unityCanvas = ref<HTMLCanvasElement | null>(null);
+
+const loading = ref(true);
+const progress = ref(0);
+
 let unityInstance: any = null;
-let loaderScript: HTMLScriptElement | null = null;
+let loader: HTMLScriptElement | null = null;
 
 onMounted(() => {
-  const canvas = unityCanvas.value;
-  if (!canvas) return;
+  loader = document.createElement("script");
+  loader.src = "/TheValkyrie/Build/Web.loader.js";
 
-  // mobile fix
-  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-    const meta = document.createElement("meta");
-    meta.name = "viewport";
-    meta.content =
-      "width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes";
-    document.head.appendChild(meta);
-
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-    canvas.style.position = "fixed";
-    document.body.style.textAlign = "left";
-  }
-
-  loaderScript = document.createElement("script");
-  loaderScript.src = "/TVFiles/Web.loader.js";
-
-  loaderScript.onload = () => {
+  loader.onload = () => {
     // @ts-ignore
-    createUnityInstance(canvas, {
-      dataUrl: "/TVFiles/Web.data",
-      frameworkUrl: "/TVFiles/Web.framework.js",
-      codeUrl: "/TVFiles/Web.wasm",
-      streamingAssetsUrl: "/TVFiles/StreamingAssets",
-      companyName: "DefaultCompany",
-      productName: "myTilevania",
-      productVersion: "1.0",
-    })
+    createUnityInstance(
+      unityCanvas.value,
+      {
+        arguments: [],
+        dataUrl: "/TheValkyrie/Build/Web.data.br",
+        frameworkUrl: "/TheValkyrie/Build/Web.framework.js.br",
+        codeUrl: "/TheValkyrie/Build/Web.wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "The Valkyrie",
+        productVersion: "1.0",
+      },
+      (p: number) => {
+        progress.value = Math.round(p * 100);
+      },
+    )
       .then((instance: any) => {
         unityInstance = instance;
-        console.log("Unity loaded");
+        loading.value = false;
       })
-      .catch(console.error);
+      .catch((err: any) => {
+        console.error(err);
+        alert(err);
+      });
   };
 
-  document.body.appendChild(loaderScript);
+  document.body.appendChild(loader);
 });
 
 onUnmounted(async () => {
-  // 💀 kill unity
   if (unityInstance) {
     try {
       await unityInstance.Quit();
+      unityInstance = null;
     } catch (e) {
-      console.warn("Unity quit failed:", e);
+      console.warn("Unity cleanup error:", e);
     }
-    unityInstance = null;
   }
 
-  // 🧹 cleanup DOM
-  if (loaderScript) {
-    loaderScript.remove();
-    loaderScript = null;
-  }
-
-  if (unityCanvas.value) {
-    unityCanvas.value.remove();
+  if (loader) {
+    loader.remove();
+    loader = null;
   }
 });
 </script>
+
 <template>
-  <div class="unity-wrapper mt-16 pt-5">
+  <v-container
+    fluid
+    class="d-flex flex-column justify-center align-center py-10 mt-10"
+  >
+    <div
+      v-if="loading"
+      class="text-center mb-8"
+      style="width: 100%; max-width: 500px"
+    >
+      <v-progress-circular indeterminate color="primary" size="64" />
+
+      <h2 class="mt-4 text-h5">Loading The Valkyrie...</h2>
+
+      <v-progress-linear
+        class="mt-6"
+        :model-value="progress"
+        color="primary"
+        rounded
+        height="10"
+      />
+
+      <div class="mt-2 text-body-1">{{ progress }}%</div>
+    </div>
+
     <canvas
       ref="unityCanvas"
       id="unity-canvas"
       width="960"
       height="600"
       tabindex="-1"
-      class="unity-canvas"
-    ></canvas>
-  </div>
+      :style="{
+        width: '100%',
+        maxWidth: '960px',
+        aspectRatio: '16 / 9',
+        background: '#000',
+        borderRadius: '12px',
+        display: loading ? 'none' : 'block',
+      }"
+    />
+  </v-container>
 </template>
-
-<style scoped>
-.unity-wrapper {
-  text-align: center;
-  padding: 0;
-  margin: 0;
-  border: 0;
-}
-
-.unity-canvas {
-  width: 960px;
-  height: 600px;
-  background: #231f20;
-}
-</style>

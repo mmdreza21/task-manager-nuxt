@@ -2,66 +2,80 @@
 import { onMounted, onUnmounted, ref } from "vue";
 
 const unityCanvas = ref<HTMLCanvasElement | null>(null);
-const onPage = ref<boolean>(true);
+
+const loading = ref(true);
+const progress = ref(0);
 
 let unityInstance: any = null;
+let loader: HTMLScriptElement | null = null;
 
 onMounted(() => {
-  const loader = document.createElement("script");
-  loader.src = "/Build1/Web.loader.js";
+  loader = document.createElement("script");
+  loader.src = "/StarBlaster/Build/Web.loader.js";
 
   loader.onload = () => {
     // @ts-ignore
-    createUnityInstance(unityCanvas.value, {
-      arguments: [],
-      dataUrl: "/Build1/Web.data",
-      frameworkUrl: "/Build1/Web.framework.js",
-      codeUrl: "/Build1/Web.wasm",
-      streamingAssetsUrl: "/StreamingAssets",
-      companyName: "DefaultCompany",
-      productName: "Star Blaster",
-      productVersion: "1.0",
-    })
+    createUnityInstance(
+      unityCanvas.value,
+      {
+        arguments: [],
+        dataUrl: "/StarBlaster/Build/Web.data.br",
+        frameworkUrl: "/StarBlaster/Build/Web.framework.js.br",
+        codeUrl: "/StarBlaster/Build/Web.wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "Star Blaster",
+        productVersion: "1.0",
+      },
+      (p: number) => {
+        progress.value = Math.round(p * 100);
+      },
+    )
       .then((instance: any) => {
         unityInstance = instance;
+        loading.value = false;
       })
-      .catch((err: any) => {
-        alert(err);
-      });
+      .catch(console.error);
   };
 
   document.body.appendChild(loader);
 });
 
 onUnmounted(async () => {
-  onPage.value = false;
-
   if (unityInstance) {
-    try {
-      await unityInstance.Quit();
-      unityInstance = null;
-    } catch (e) {
-      console.warn("Unity cleanup error:", e);
-    }
+    await unityInstance.Quit();
   }
 
-  const canvas = unityCanvas.value;
-  if (canvas) {
-    canvas.remove();
-  }
+  loader?.remove();
 });
 </script>
-
 <template>
-  <div class="d-flex justify-center my-16 pt-5 align-center">
+  <v-container class="d-flex flex-column align-center py-10">
+    <div v-if="loading" class="text-center mb-6" style="width: 500px">
+      <h2 class="mb-4">Loading Star Blaster...</h2>
+
+      <v-progress-linear
+        :model-value="progress"
+        color="primary"
+        height="12"
+        rounded
+      />
+
+      <div class="mt-3">{{ progress }}%</div>
+    </div>
+
     <canvas
-      v-if="onPage"
       ref="unityCanvas"
-      id="unity-canvas"
-      width="540"
-      height="10vh"
-      tabindex="-1"
-      style="width: 450px; height: 80vh; background: #231f20"
-    ></canvas>
-  </div>
+      width="960"
+      height="600"
+      :style="{
+        width: '100%',
+        maxWidth: '960px',
+        aspectRatio: '16 / 9',
+        background: '#000',
+        borderRadius: '12px',
+        display: loading ? 'none' : 'block',
+      }"
+    />
+  </v-container>
 </template>
