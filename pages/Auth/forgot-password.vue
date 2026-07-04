@@ -55,7 +55,6 @@ const sendOtp = async () => {
           label="Email"
           type="email"
           :rules="[rules.required, rules.email]"
-          variant="outlined"
           prepend-inner-icon="mdi-email-outline"
           density="comfortable"
           class="glass-input"

@@ -50,7 +50,7 @@ onUnmounted(async () => {
 });
 </script>
 <template>
-  <v-container class="d-flex flex-column align-center py-10">
+  <v-container class="d-flex flex-column align-center py-10 mt-10">
     <div v-if="loading" class="text-center mb-6" style="width: 500px">
       <h2 class="mb-4">Loading Star Blaster...</h2>
 

@@ -84,7 +84,6 @@ const handleRegister = async () => {
             v-model="name"
             label="Full Name"
             type="text"
-            placeholder="Enter your name"
             required
             class="glass-input"
           />
@@ -93,7 +92,6 @@ const handleRegister = async () => {
             v-model="email"
             label="Email Address"
             type="email"
-            placeholder="Enter your email"
             required
             class="glass-input"
           />
@@ -102,7 +100,6 @@ const handleRegister = async () => {
             v-model="password"
             :type="showPassword ? 'text' : 'password'"
             label="Password"
-            placeholder="Enter password"
             required
             class="glass-input"
             :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
@@ -113,7 +110,6 @@ const handleRegister = async () => {
             v-model="confirmPassword"
             :type="showConfirmPassword ? 'text' : 'password'"
             label="Confirm Password"
-            placeholder="Confirm password"
             required
             class="glass-input"
             :append-inner-icon="showConfirmPassword ? 'mdi-eye-off' : 'mdi-eye'"
