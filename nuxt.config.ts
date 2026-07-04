@@ -15,6 +15,24 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   routeRules: {
     "/profile/reset-password": { ssr: false },
+    "/**/*.data.br": {
+      headers: {
+        "Content-Encoding": "br",
+        "Content-Type": "application/octet-stream",
+      },
+    },
+    "/**/*.framework.js.br": {
+      headers: {
+        "Content-Encoding": "br",
+        "Content-Type": "application/javascript",
+      },
+    },
+    "/**/*.wasm.br": {
+      headers: {
+        "Content-Encoding": "br",
+        "Content-Type": "application/wasm",
+      },
+    },
   },
   plugins: [
     // { src: "~/plugins/resizeAble" },
@@ -70,6 +88,9 @@ export default defineNuxtConfig({
       BASEURL: process.env.BASEURL,
     },
   },
+
+
+
 
   sitemap: {
     sources: ["/api/__sitemap__/urls"],
