@@ -8,11 +8,11 @@ const games = [
     route: "/games/EchoesOfEldoria",
   },
   {
-    title: "Star Blaster",
+    title: "Rocket Booster",
     description:
-      "Fast-paced space shooter in a 3D environment with 2D movement. Dodge enemy fire, destroy waves of ships, and survive in an arcade-style experience.",
-    genre: "Shooter • Arcade",
-    route: "/games/StarBlaster",
+      "Rocket Booster is a physics-based 3D space flight game built with Unity. Pilot your rocket through increasingly difficult levels, carefully controlling thrust and rotation while avoiding hazards and obstacles. The project showcases Unity physics, particle effects, audio, Cinemachine cameras, lighting, post-processing, and level design to create a polished gameplay experience.",
+    genre: "Physics • Space • Arcade",
+    route: "/games/RocketBooster",
   },
   {
     title: "The Valkyrie",
