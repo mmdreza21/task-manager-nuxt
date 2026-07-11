@@ -97,7 +97,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     routeRules: {
-      "/socket.io/**": { proxy: "http://localhost:8080/socket.io/**" },
+      "/socket.io/**": { proxy: process.env.PROXY },
     },
   },
 });
