@@ -42,6 +42,7 @@ const changePassword = async () => {
     saving.value = false;
   }
 };
+
 function logout() {
   const token = useCookie("Authorization");
   token.value = "";
@@ -54,57 +55,167 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-card
-    min-height="100vh"
-    color="transparent"
-    variant="flat"
-    class="w-100 h-100 d-flex justify-center align-center"
-  >
-    <v-card
-      color="transparent"
-      class="glass-card pa-10 text-center"
-      elevation="12"
-      max-width="500"
-      width="100%"
-    >
-      <h1 class="text-h4 font-weight-bold mb-6 text-light">Profile</h1>
+  <v-container fluid class="fill-height mt-16">
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="10" md="8" lg="6" xl="4">
+        <v-card color="#1a1a1a" class="pa-8" elevation="2" rounded="lg" border>
+          <v-card-title
+            class="text-h5 font-weight-bold text-white text-center mb-6"
+          >
+            <v-icon color="primary" size="36" class="mr-2"
+              >mdi-account-circle</v-icon
+            >
+            Profile
+          </v-card-title>
 
-      <div v-if="user" class="text-light mb-8">
-        <p class="text-body-1 mb-2"><strong>Name:</strong> {{ user.name }}</p>
-        <p class="text-body-1"><strong>Email:</strong> {{ user.email }}</p>
-      </div>
+          <v-divider color="#333" class="mb-6" />
 
-      <v-divider class="my-6"></v-divider>
+          <!-- Loading -->
+          <v-card-text v-if="loading" class="text-center py-6">
+            <v-progress-circular indeterminate color="primary" size="48" />
+            <p class="text-white mt-3">Loading profile...</p>
+          </v-card-text>
 
-      <h2 class="text-h6 mb-4 text-light">Change Password</h2>
+          <!-- User Info -->
+          <v-card-text v-else-if="user" class="pa-0">
+            <v-list color="transparent" class="pa-0">
+              <v-list-item class="mb-2" border rounded="lg" color="#242424">
+                <template v-slot:prepend>
+                  <v-icon color="primary">mdi-account</v-icon>
+                </template>
+                <v-list-item-title class="text-white">Name</v-list-item-title>
+                <v-list-item-subtitle class="text-grey">{{
+                  user.name
+                }}</v-list-item-subtitle>
+              </v-list-item>
 
-      <v-form @submit.prevent="changePassword" class="d-flex flex-column gap-5">
-        <v-text-field
-          v-model="passwordData.oldPassword"
-          label="Old Password"
-          type="password"
-          placeholder="Enter your current password"
-          required
-          class="glass-input"
-        />
+              <v-list-item border rounded="lg" color="#242424">
+                <template v-slot:prepend>
+                  <v-icon color="primary">mdi-email</v-icon>
+                </template>
+                <v-list-item-title class="text-white">Email</v-list-item-title>
+                <v-list-item-subtitle class="text-grey">{{
+                  user.email
+                }}</v-list-item-subtitle>
+              </v-list-item>
+            </v-list>
 
-        <v-text-field
-          v-model="passwordData.newPassword"
-          label="New Password"
-          type="password"
-          placeholder="Enter a new password"
-          required
-          class="glass-input"
-        />
+            <v-divider color="#333" class="my-6" />
 
-        <v-btn type="submit" :loading="saving" class="glass-btn mt-3" block>
-          Update Password
-        </v-btn>
+            <!-- Change Password -->
+            <div class="text-h6 font-weight-bold text-white mb-4">
+              Change Password
+            </div>
 
-        <v-btn class="glass-btn-danger mt-4" size="large" block @click="logout">
-          Logout
-        </v-btn>
-      </v-form>
-    </v-card>
-  </v-card>
+            <v-form @submit.prevent="changePassword">
+              <v-text-field
+                v-model="passwordData.oldPassword"
+                label="Old Password"
+                type="password"
+                placeholder="Enter your current password"
+                variant="outlined"
+                density="comfortable"
+                bg-color="#242424"
+                color="primary"
+                base-color="#555"
+                class="mb-3"
+                required
+              />
+
+              <v-text-field
+                v-model="passwordData.newPassword"
+                label="New Password"
+                type="password"
+                placeholder="Enter a new password"
+                variant="outlined"
+                density="comfortable"
+                bg-color="#242424"
+                color="primary"
+                base-color="#555"
+                class="mb-4"
+                required
+              />
+
+              <v-btn
+                type="submit"
+                color="primary"
+                variant="elevated"
+                size="large"
+                block
+                :loading="saving"
+                class="mb-3"
+              >
+                <v-icon start>mdi-lock-reset</v-icon>
+                Update Password
+              </v-btn>
+            </v-form>
+
+            <v-btn
+              color="error"
+              variant="tonal"
+              size="large"
+              block
+              @click="logout"
+            >
+              <v-icon start>mdi-logout</v-icon>
+              Logout
+            </v-btn>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+
+<style scoped>
+.text-grey {
+  color: #888888 !important;
+}
+
+:deep(.v-field) {
+  background-color: #242424 !important;
+  border-color: #333 !important;
+  border-radius: 8px !important;
+}
+
+:deep(.v-field__input) {
+  color: #ffffff !important;
+}
+
+:deep(.v-field__label) {
+  color: #888888 !important;
+}
+
+:deep(.v-field--focused .v-field__label) {
+  color: #7c3aed !important;
+}
+
+:deep(.v-field__append-inner) {
+  color: #888888 !important;
+}
+
+:deep(.v-field--variant-outlined .v-field__outline) {
+  color: #333 !important;
+}
+
+:deep(.v-field--variant-outlined.v-field--focused .v-field__outline) {
+  color: #7c3aed !important;
+}
+
+:deep(.v-btn--variant-elevated) {
+  text-transform: none !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3px !important;
+}
+
+:deep(.v-btn--variant-tonal) {
+  text-transform: none !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3px !important;
+}
+
+:deep(.v-list-item) {
+  background: #242424 !important;
+  border-color: #333 !important;
+}
+</style>

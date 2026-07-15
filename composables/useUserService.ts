@@ -6,7 +6,6 @@ export const useUserService = () => {
   const { fireNotification } = useNotification();
 
   class UserService {
-    // 📨 Send OTP for email verification
     async sendVerification(email: string) {
       try {
         return await $customFetch(`/users/send-verification`, {
@@ -22,7 +21,6 @@ export const useUserService = () => {
       }
     }
 
-    // ✅ Verify Email OTP
     async verifyEmail(token: string) {
       try {
         return await $customFetch(`/users/verify?token=${token}`, {});
@@ -35,7 +33,6 @@ export const useUserService = () => {
       }
     }
 
-    // 🧙‍♂️ Create new user (Sign Up)
     async register(payload: { name: string; email: string; password: string }) {
       try {
         return await $customFetch(`/users`, {
@@ -51,7 +48,6 @@ export const useUserService = () => {
       }
     }
 
-    // 🔐 Change password (logged-in user)
     async changePassword(oldPassword: string, newPassword: string) {
       try {
         return await $customFetch(`/users/change-password`, {
@@ -67,7 +63,6 @@ export const useUserService = () => {
       }
     }
 
-    // 📩 Forgot Password (Send OTP)
     async forgotPassword(payload: { email: string }) {
       try {
         return await $customFetch(`/users/forgot-password`, {
@@ -83,7 +78,6 @@ export const useUserService = () => {
       }
     }
 
-    // ♻️ Reset Password using OTP
     async resetPassword(payload: { otp: string; newPassword: string }) {
       try {
         return await $customFetch(`/users/reset-password`, {
@@ -99,7 +93,6 @@ export const useUserService = () => {
       }
     }
 
-    // 👤 Get profile (JWT required)
     async getProfile() {
       try {
         return await $customFetch(`/users/profile`, {
@@ -111,7 +104,6 @@ export const useUserService = () => {
       }
     }
 
-    // ✏️ Update profile (JWT required)
     async updateProfile(data: { name: string }) {
       try {
         return await $customFetch(`/users`, {

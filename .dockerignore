@@ -5,6 +5,7 @@ node_modules
 .gitignore
 .vscode
 .idea
+.env
 coverage
 Dockerfile
 README.md

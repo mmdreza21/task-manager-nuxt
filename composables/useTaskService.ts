@@ -22,7 +22,7 @@ export const useTaskService = () => {
             doneAt: new Date(filters.doneAt).toISOString(),
           }),
         };
-        const data = await useNuxtApp().$customFetch<Task[]>(`task`, {
+        const data = await useNuxtApp().$customFetch<Task[]>(`task/all`, {
           method: "GET",
           params,
         });

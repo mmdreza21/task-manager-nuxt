@@ -22,102 +22,130 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-container
-    class="h-90vh mt-16 d-flex align-center justify-center py-16 my-16"
-  >
-    <v-card
-      class="chat-card glass-card d-flex flex-column my-12"
-      elevation="12"
-    >
-      <!-- Header -->
-      <div class="chat-header pa-4 d-flex align-center justify-space-between">
-        <div class="d-flex align-center">
-          <div class="w-100">
-            <h3 class="text-h6 mb-0 text-light">Chat</h3>
-            <b class="text-cyan-400">👥 {{ userCount }} Online users</b>
-          </div>
-        </div>
-      </div>
-
-      <v-divider></v-divider>
-
-      <!-- Messages -->
-      <div class="chat-messages flex-grow-1 pa-4 overflow-y-auto">
-        <div
-          v-for="(msg, i) in messages"
-          :key="i"
-          class="d-flex mb-3"
-          :class="msg.from.name === 'me' ? 'justify-end' : 'justify-start'"
+  <v-container fluid class="fill-height pa-0">
+    <v-row no-gutters class="fill-height">
+      <v-col cols="12" class="d-flex align-center justify-center">
+        <v-card
+          color="#1a1a1a"
+          class="chat-card d-flex flex-column"
+          elevation="2"
+          rounded="lg"
+          border
         >
-          <v-card
-            min-width="100px"
-            class="message pa-3 rounded-lg"
-            :class="msg.from.name === 'me' ? 'message-out' : 'message-in'"
+          <!-- Header -->
+          <v-card-title
+            class="chat-header pa-4 d-flex align-center justify-space-between"
           >
-            <small class="text-caption d-block mt-1 text-dim">
-              {{ msg.from.name === "me" ? "You" : msg.from.name }}
-            </small>
-            <div class="text-body-2">
-              {{ msg.message }}
+            <div class="d-flex align-center">
+              <v-icon color="primary" size="28" class="mr-2">mdi-chat</v-icon>
+              <div>
+                <h3 class="text-h6 font-weight-bold text-white mb-0">Chat</h3>
+                <span class="text-grey caption">
+                  <v-icon size="14" color="success" class="mr-1"
+                    >mdi-circle</v-icon
+                  >
+                  {{ userCount }} Online users
+                </span>
+              </div>
             </div>
-          </v-card>
-        </div>
-      </div>
+          </v-card-title>
 
-      <v-divider></v-divider>
+          <v-divider color="#333" />
 
-      <!-- Message input -->
-      <div class="chat-input pa-3 d-flex align-center">
-        <v-text-field
-          v-model="messageText"
-          placeholder="Type a message..."
-          variant="outlined"
-          density="comfortable"
-          hide-details
-          class="flex-grow-1 glass-input"
-          @keyup.enter="sendMessageWrapper"
-        />
-        <v-btn
-          icon="mdi-send"
-          color="cyan"
-          elevation="4"
-          class="ms-3"
-          @click="sendMessageWrapper"
-        />
-      </div>
-    </v-card>
+          <!-- Messages -->
+          <div class="chat-messages flex-grow-1 pa-4 overflow-y-auto">
+            <div
+              v-for="(msg, i) in messages"
+              :key="i"
+              class="d-flex mb-3"
+              :class="msg.from.name === 'me' ? 'justify-end' : 'justify-start'"
+            >
+              <v-card
+                min-width="100"
+                class="message pa-3 rounded-lg"
+                :class="msg.from.name === 'me' ? 'message-out' : 'message-in'"
+                elevation="0"
+              >
+                <small class="text-caption d-block mt-1 text-grey">
+                  {{ msg.from.name === "me" ? "You" : msg.from.name }}
+                </small>
+                <div class="text-body-2 text-white">
+                  {{ msg.message }}
+                </div>
+              </v-card>
+            </div>
+          </div>
+
+          <v-divider color="#333" />
+
+          <!-- Message input -->
+          <div class="chat-input pa-3 d-flex align-center">
+            <v-text-field
+              v-model="messageText"
+              placeholder="Type a message..."
+              variant="outlined"
+              density="comfortable"
+              hide-details
+              class="flex-grow-1"
+              bg-color="#242424"
+              color="primary"
+              base-color="#555"
+              @keyup.enter="sendMessageWrapper"
+            >
+              <template v-slot:prepend-inner>
+                <v-icon color="grey">mdi-emoticon-outline</v-icon>
+              </template>
+            </v-text-field>
+            <v-btn
+              color="primary"
+              variant="elevated"
+              icon
+              class="ms-3"
+              @click="sendMessageWrapper"
+            >
+              <v-icon>mdi-send</v-icon>
+            </v-btn>
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <style scoped>
-/* ✅ Your style kept exactly as before */
-.chat-container {
-  height: 100vh;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .chat-card {
-  width: 420px;
+  width: 480px;
   max-width: 95%;
   height: 70vh;
   display: flex;
   flex-direction: column;
-  backdrop-filter: blur(16px);
 }
 
 .chat-header {
-  background: rgba(255, 255, 255, 0.05);
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  flex-shrink: 0;
 }
 
 .chat-messages {
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(0, 255, 255, 0.2) transparent;
+  scrollbar-color: #333 transparent;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: #444;
 }
 
 .message {
@@ -127,24 +155,67 @@ onMounted(() => {
 }
 
 .message-in {
-  background: rgba(255, 255, 255, 0.1);
-  color: #e0f2fe;
-  border-top-left-radius: 0;
+  background: #242424 !important;
+  border-top-left-radius: 0 !important;
+  border: 1px solid #333;
 }
 
 .message-out {
-  background: #072022;
-  color: #0f172a;
-  border-top-right-radius: 0;
+  background: rgba(124, 58, 237, 0.15) !important;
+  border-top-right-radius: 0 !important;
+  border: 1px solid rgba(124, 58, 237, 0.2);
 }
 
 .chat-input {
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
+  flex-shrink: 0;
 }
 
-.text-dim {
-  opacity: 0.7;
+.text-grey {
+  color: #888888 !important;
+}
+
+:deep(.v-field) {
+  background-color: #242424 !important;
+  border-color: #333 !important;
+  border-radius: 8px !important;
+}
+
+:deep(.v-field__input) {
+  color: #ffffff !important;
+}
+
+:deep(.v-field__label) {
+  color: #888888 !important;
+}
+
+:deep(.v-field--focused .v-field__label) {
+  color: #7c3aed !important;
+}
+
+:deep(.v-field__prepend-inner) {
+  color: #888888 !important;
+}
+
+:deep(.v-field--variant-outlined .v-field__outline) {
+  color: #333 !important;
+}
+
+:deep(.v-field--variant-outlined.v-field--focused .v-field__outline) {
+  color: #7c3aed !important;
+}
+
+:deep(.v-btn--variant-elevated) {
+  text-transform: none !important;
+  min-width: 44px !important;
+  border-radius: 8px !important;
+}
+
+:deep(.v-btn--variant-elevated:hover) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4) !important;
+}
+
+:deep(.v-card) {
+  border-color: #333 !important;
 }
 </style>

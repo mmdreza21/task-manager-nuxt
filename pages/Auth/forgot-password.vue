@@ -27,60 +27,74 @@ const sendOtp = async () => {
 </script>
 
 <template>
-  <v-card
-    min-height="100vh"
-    color="transparent"
-    variant="flat"
-    class="w-100 h-100 d-flex justify-center align-center"
-  >
-    <v-card
-      color="transparent"
-      class="glass-card pa-10 text-center"
-      elevation="12"
-      max-width="440"
-      width="100%"
-    >
-      <div class="mb-8">
-        <h1 class="text-h4 font-weight-bold mb-2 text-light">
-          Forgot Password
-        </h1>
-        <p class="text-body-2 text-dim">
-          Enter your email to receive a verification code
-        </p>
-      </div>
-
-      <v-form @submit.prevent="sendOtp" class="d-flex flex-column gap-5">
-        <v-text-field
-          v-model="email"
-          label="Email"
-          type="email"
-          :rules="[rules.required, rules.email]"
-          prepend-inner-icon="mdi-email-outline"
-          density="comfortable"
-          class="glass-input"
-          hide-details="auto"
-          required
-        />
-
-        <v-btn
-          type="submit"
-          :loading="loading"
-          size="large"
-          class="glass-btn mt-2"
-          block
+  <v-container fluid class="fill-height">
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="10" md="8" lg="5" xl="4">
+        <v-card
+          color="#1a1a1a"
+          class="pa-8 text-center"
+          elevation="2"
+          rounded="lg"
+          border
         >
-          Send OTP
-        </v-btn>
-      </v-form>
+          <v-card-title class="text-h5 font-weight-bold text-white mb-2">
+            <v-icon color="primary" size="36" class="mr-2"
+              >mdi-lock-reset</v-icon
+            >
+            Forgot Password
+          </v-card-title>
 
-      <v-divider class="my-6"></v-divider>
+          <p class="text-grey-darken-1 mb-6">
+            Enter your email to receive a verification code
+          </p>
 
-      <p class="text-light">
-        Remember your password?
-        <NuxtLink to="/auth/login" class="text-light font-weight-medium">
-          Go back to login
-        </NuxtLink>
-      </p>
-    </v-card>
-  </v-card>
+          <v-divider color="grey-darken-4" class="mb-6" />
+
+          <v-form @submit.prevent="sendOtp">
+            <v-text-field
+              v-model="email"
+              label="Email"
+              type="email"
+              :rules="[rules.required, rules.email]"
+              prepend-inner-icon="mdi-email-outline"
+              variant="outlined"
+              density="comfortable"
+              bg-color="grey-darken-4"
+              color="primary"
+              base-color="grey-darken-3"
+              class="mb-4"
+              hide-details="auto"
+              required
+            />
+
+            <v-btn
+              type="submit"
+              color="primary"
+              variant="elevated"
+              size="large"
+              block
+              :loading="loading"
+              class="mb-4"
+            >
+              <v-icon start>mdi-send</v-icon>
+              Send OTP
+            </v-btn>
+          </v-form>
+
+          <v-divider color="grey-darken-4" class="my-4" />
+
+          <p class="text-grey-darken-1">
+            Remember your password?
+            <NuxtLink
+              to="/auth/login"
+              class="text-primary font-weight-bold"
+              style="text-decoration: none"
+            >
+              Go back to login
+            </NuxtLink>
+          </p>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

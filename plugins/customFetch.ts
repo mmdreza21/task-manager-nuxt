@@ -5,11 +5,11 @@ export default defineNuxtPlugin({
     const token = useCookie("Authorization");
 
     const config = useRuntimeConfig();
+
     // Create a custom fetch instance
     const customFetch = $fetch.create({
       // baseURL: "https://api.cycfx.com/api",
       baseURL: `${config.public.BASEURL}/api`,
-
       onRequest({ options }) {
         // Set authorization header if the token is available
         if (token.value) {

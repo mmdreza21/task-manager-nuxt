@@ -52,7 +52,7 @@ const changeStatus = async (id: string, status: any) => {
   try {
     const { task, error: updateError } = await taskService.updateTaskStatus(
       id,
-      status
+      status,
     );
     if (updateError) throw updateError;
 
@@ -66,10 +66,12 @@ const tab = ref(0);
 const createModal = ref(false);
 
 onMounted(loadTasks);
+const config = useRuntimeConfig();
+console.log("BASEURL =", config.public.BASEURL);
 </script>
 
 <template>
-  <v-container class="py-4 mt-16 pt-16">
+  <v-container class="py-4 pt-16">
     <v-row>
       <v-col cols="12" md="8" offset-md="2">
         <v-fab
@@ -96,7 +98,7 @@ onMounted(loadTasks);
           <v-tabs-window-item>
             <TaskList
               class="my-2"
-              :tasks="tasks.filter((task:any) => task.status !== 'Done')"
+              :tasks="tasks.filter((task: any) => task.status !== 'Done')"
               @change-status="changeStatus"
               :loading="loading"
               :error="error"
@@ -106,7 +108,7 @@ onMounted(loadTasks);
           <v-tabs-window-item>
             <TaskList
               class="my-2"
-              :tasks="tasks.filter((task:any) => task.status === 'Done')"
+              :tasks="tasks.filter((task: any) => task.status === 'Done')"
               @change-status="changeStatus"
               :loading="loading"
               :error="error"

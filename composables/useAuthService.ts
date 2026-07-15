@@ -38,9 +38,7 @@ export const useAuthService = () => {
     maxAge: 31536000,
   });
 
-  const config = useRuntimeConfig();
   const { $customFetch } = useNuxtApp();
-  const baseAuthUrl = config.public.BASEURL;
   const { fireNotification } = useNotification();
 
   class AuthService {

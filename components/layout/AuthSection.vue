@@ -2,9 +2,6 @@
 const auth = useAuthUser();
 
 const userState = computed(() => auth.getUserState);
-
-// Option 2 — Destructure with reactivity (using storeToRefs)
-// const { getUserState } = storeToRefs(useAuthUser());
 </script>
 
 <template>
@@ -13,17 +10,13 @@ const userState = computed(() => auth.getUserState);
     <div v-if="!userState.loggedIn">
       <v-btn
         v-if="$vuetify.display.mdAndUp"
-        text="Login | Sing Up"
-        class="glass-btn"
+        text="Login / Sign Up"
+        color="primary"
+        variant="elevated"
+        class="text-none px-6"
         to="/auth/login"
       />
-      <v-btn
-        size="44"
-        to="/auth/login"
-        v-else
-        variant="plain"
-        class="glass-icon-btn"
-      >
+      <v-btn v-else icon variant="text" color="white" to="/auth/login">
         <v-icon>mdi-account-outline</v-icon>
       </v-btn>
     </div>
@@ -33,17 +26,21 @@ const userState = computed(() => auth.getUserState);
       <v-btn
         v-if="$vuetify.display.mdAndUp"
         to="/profile/info"
+        color="primary"
+        variant="tonal"
+        class="text-none px-4"
         :text="
           userState.user?.name
             ? userState.user.name
             : userState.user?.email
-            ? userState.user.email.split('@')[0]
-            : 'ناحیه کاربری'
+              ? userState.user.email.split('@')[0]
+              : 'Profile'
         "
-        class="glass-btn"
-      />
-      <v-btn to="/profile/info" v-else variant="plain" class="glass-icon-btn">
-        <v-icon icon="user" type="outline" />
+      >
+        <v-icon start>mdi-account-circle</v-icon>
+      </v-btn>
+      <v-btn v-else icon variant="text" color="white" to="/profile/info">
+        <v-icon>mdi-account</v-icon>
       </v-btn>
     </div>
   </div>
@@ -56,45 +53,40 @@ const userState = computed(() => auth.getUserState);
   justify-content: center;
 }
 
-/* 🌫️ Frosted glass button style */
-.glass-btn {
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  background: linear-gradient(
-    135deg,
-    rgba(25, 118, 210, 0.3),
-    rgba(66, 165, 245, 0.25)
-  );
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #fff !important;
-  text-transform: none;
-  font-weight: 600;
-  border-radius: 12px;
-  padding: 10px 24px;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(25, 118, 210, 0.2);
+/* Simple dark theme overrides */
+:deep(.v-btn--variant-elevated) {
+  background-color: #1976d2 !important;
+  color: #ffffff !important;
+  text-transform: none !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3px !important;
 }
 
-.glass-btn:hover {
-  background: linear-gradient(135deg, #42a5f5, #1976d2);
-  box-shadow: 0 0 35px rgba(25, 118, 210, 0.6);
-  transform: translateY(-2px);
+:deep(.v-btn--variant-elevated:hover) {
+  background-color: #1565c0 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4) !important;
 }
 
-/* 👤 Icon-only version (mobile) */
-.glass-icon-btn {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #fff !important;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  padding: 8px 12px;
+:deep(.v-btn--variant-tonal) {
+  background-color: rgba(25, 118, 210, 0.12) !important;
+  color: #ffffff !important;
+  text-transform: none !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3px !important;
 }
 
-.glass-icon-btn:hover {
-  background: rgba(66, 165, 245, 0.25);
-  box-shadow: 0 0 25px rgba(66, 165, 245, 0.4);
+:deep(.v-btn--variant-tonal:hover) {
+  background-color: rgba(25, 118, 210, 0.2) !important;
+}
+
+:deep(.v-btn--variant-text) {
+  color: #ffffff !important;
+}
+
+:deep(.v-btn--variant-text:hover) {
+  color: #1976d2 !important;
 }
 </style>

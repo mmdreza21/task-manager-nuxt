@@ -5,7 +5,6 @@ definePageMeta({ middleware: "guest" });
 const email = ref("");
 const password = ref("");
 const loading = ref(false);
-const errorMessage = ref("");
 
 const { fireNotification } = useNotification();
 
@@ -16,16 +15,13 @@ const rules = {
 
 const login = async () => {
   loading.value = true;
-  errorMessage.value = "";
 
   try {
-    // Simulate API call (replace with actual call)
-    const res = await useAuthService()
+    await useAuthService()
       .loginProcess(useAuthService().loginWithPass)
       .login({ email: email.value, password: password.value });
   } catch (error: any) {
-    errorMessage.value = error?.message || "Login failed.";
-    // fireNotification("error", errorMessage.value);
+    fireNotification("error", error?.message || "Login failed.");
   } finally {
     loading.value = false;
   }
@@ -33,85 +29,101 @@ const login = async () => {
 </script>
 
 <template>
-  <v-card
-    min-height="100vh"
-    color="transparent"
-    variant="flat"
-    class="w-100 h-100 d-flex justify-center align-center"
-  >
-    <v-card
-      color="transparent"
-      class="glass-card pa-10 text-center"
-      elevation="12"
-      max-width="440"
-      width="100%"
-    >
-      <div class="mb-8">
-        <h1 class="text-h4 font-weight-bold mb-2 text-light">Task Manager</h1>
-        <p class="text-body-2 text-dim">
-          Manage your work smartly — sign in to continue
-        </p>
-      </div>
-
-      <v-form @submit.prevent="login" class="d-flex flex-column gap-5">
-        <v-text-field
-          v-model="email"
-          label="Email"
-          type="email"
-          :rules="[rules.required, rules.email]"
-          prepend-inner-icon="mdi-email-outline"
-          density="comfortable"
-          class="glass-input"
-          hide-details="auto"
-          required
-        />
-
-        <v-text-field
-          v-model="password"
-          label="Password"
-          type="password"
-          :rules="[rules.required]"
-          prepend-inner-icon="mdi-lock-outline"
-          density="comfortable"
-          class="glass-input my-5"
-          hide-details="auto"
-          required
-        />
-
-        <div class="d-flex justify-end">
-          <NuxtLink
-            to="/auth/forgot-password"
-            class="text-light font-weight-medium"
-          >
-            Forgot password?
-          </NuxtLink>
-        </div>
-
-        <v-btn
-          type="submit"
-          :loading="loading"
-          size="large"
-          class="glass-btn mt-2"
-          block
+  <v-container fluid class="fill-height">
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="10" md="8" lg="5" xl="4">
+        <v-card
+          color="#1a1a1a"
+          class="pa-8 text-center"
+          elevation="2"
+          rounded="lg"
+          border
         >
-          Login
-        </v-btn>
-      </v-form>
+          <v-card-title class="text-h5 font-weight-bold text-white mb-2">
+            <v-icon color="primary" size="40" class="mb-2"
+              >mdi-account-circle</v-icon
+            >
+            <br />
+            Task Manager
+          </v-card-title>
 
-      <v-divider class="my-6"></v-divider>
+          <p class="text-grey-darken-1 mb-6">
+            Manage your work smartly — sign in to continue
+          </p>
 
-      <p class="text-light">
-        Don’t have an account?
-        <NuxtLink to="/auth/register" class="text-light font-weight-medium">
-          Create one
-        </NuxtLink>
-      </p>
-    </v-card>
-  </v-card>
+          <v-divider color="grey-darken-4" class="mb-6" />
+
+          <v-form @submit.prevent="login">
+            <v-text-field
+              v-model="email"
+              label="Email"
+              type="email"
+              :rules="[rules.required, rules.email]"
+              prepend-inner-icon="mdi-email-outline"
+              variant="outlined"
+              density="comfortable"
+              bg-color="grey-darken-4"
+              color="primary"
+              base-color="grey-darken-3"
+              class="mb-4"
+              hide-details="auto"
+              required
+            />
+
+            <v-text-field
+              v-model="password"
+              label="Password"
+              type="password"
+              :rules="[rules.required]"
+              prepend-inner-icon="mdi-lock-outline"
+              variant="outlined"
+              density="comfortable"
+              bg-color="grey-darken-4"
+              color="primary"
+              base-color="grey-darken-3"
+              class="mb-2"
+              hide-details="auto"
+              required
+            />
+
+            <div class="d-flex justify-end mb-4">
+              <NuxtLink
+                to="/auth/forgot-password"
+                class="text-primary font-weight-medium"
+                style="text-decoration: none"
+              >
+                Forgot password?
+              </NuxtLink>
+            </div>
+
+            <v-btn
+              type="submit"
+              color="primary"
+              variant="elevated"
+              size="large"
+              block
+              :loading="loading"
+              class="mb-4"
+            >
+              <v-icon start>mdi-login</v-icon>
+              Login
+            </v-btn>
+          </v-form>
+
+          <v-divider color="grey-darken-4" class="my-4" />
+
+          <p class="text-grey-darken-1">
+            Don't have an account?
+            <NuxtLink
+              to="/auth/register"
+              class="text-primary font-weight-bold"
+              style="text-decoration: none"
+            >
+              Create one
+            </NuxtLink>
+          </p>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
-
-<style scoped>
-.text-error {
-  color: #ef4444;
-}
-</style>

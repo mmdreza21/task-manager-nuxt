@@ -35,7 +35,6 @@ async function resendVerification() {
   try {
     await userService.reSendVerificationEmail(email);
     resendVerificationBtn.value = false;
-    // fireNotification("success", "Verification email sent successfully!");
     useRouter().push("/auth/login");
   } catch (error) {
     console.error(error);
@@ -45,55 +44,91 @@ async function resendVerification() {
 </script>
 
 <template>
-  <v-container
-    class="h-90vh d-flex flex-column justify-center align-center text-center mt-16"
-  >
-    <!-- Loading State -->
-    <v-card
-      v-if="status === 'loading'"
-      class="pa-6 text-center glass-card"
-      elevation="6"
-      width="500px"
-    >
-      <v-progress-circular indeterminate color="primary" size="64" />
-      <p class="mt-4">Verifying your email...</p>
-    </v-card>
+  <v-container fluid class="fill-height">
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="10" md="8" lg="5" xl="4">
+        <!-- Loading State -->
+        <v-card
+          v-if="status === 'loading'"
+          color="#1a1a1a"
+          class="pa-8 text-center"
+          elevation="2"
+          rounded="lg"
+          border
+        >
+          <v-progress-circular
+            indeterminate
+            color="primary"
+            size="64"
+            class="mb-4"
+          />
+          <p class="text-white">Verifying your email...</p>
+        </v-card>
 
-    <!-- Success State -->
-    <v-card
-      v-else-if="status === 'success'"
-      class="pa-6 text-center glass-card"
-      elevation="6"
-      width="500px"
-    >
-      <v-icon size="64" color="success">mdi-check-circle-outline</v-icon>
-      <h2 class="mt-4">Email verified successfully 🎉</h2>
-      <v-btn color="primary" class="mt-4" to="/auth/login"> Go to Login </v-btn>
-    </v-card>
+        <!-- Success State -->
+        <v-card
+          v-else-if="status === 'success'"
+          color="#1a1a1a"
+          class="pa-8 text-center"
+          elevation="2"
+          rounded="lg"
+          border
+        >
+          <v-icon color="success" size="64" class="mb-4"
+            >mdi-check-circle-outline</v-icon
+          >
+          <v-card-title class="text-h5 font-weight-bold text-white mb-4">
+            Email Verified!
+          </v-card-title>
+          <p class="text-grey-darken-1 mb-6">
+            Your email has been successfully verified. You can now login to your
+            account.
+          </p>
+          <v-btn
+            color="primary"
+            variant="elevated"
+            size="large"
+            block
+            to="/auth/login"
+          >
+            <v-icon start>mdi-login</v-icon>
+            Go to Login
+          </v-btn>
+        </v-card>
 
-    <!-- Error State -->
-    <v-card
-      v-else-if="status === 'error'"
-      class="pa-6 text-center glass-card"
-      elevation="6"
-      width="500px"
-    >
-      <v-icon size="64" color="error">mdi-alert-circle-outline</v-icon>
-      <h2 class="mt-4">Invalid or expired verification link ❌</h2>
-      <v-btn
-        v-if="resendVerificationBtn"
-        color="primary"
-        class="mt-4"
-        @click="resendVerification"
-      >
-        Resend Verification Email
-      </v-btn>
-    </v-card>
+        <!-- Error State -->
+        <v-card
+          v-else-if="status === 'error'"
+          color="#1a1a1a"
+          class="pa-8 text-center"
+          elevation="2"
+          rounded="lg"
+          border
+        >
+          <v-icon color="error" size="64" class="mb-4"
+            >mdi-alert-circle-outline</v-icon
+          >
+          <v-card-title class="text-h5 font-weight-bold text-white mb-4">
+            Invalid or Expired Link
+          </v-card-title>
+          <p class="text-grey-darken-1 mb-6">
+            The verification link is invalid or has expired. Please request a
+            new one.
+          </p>
+          <v-btn
+            v-if="resendVerificationBtn"
+            color="primary"
+            variant="elevated"
+            size="large"
+            block
+            :disabled="!resendVerificationBtn"
+            @click="resendVerification"
+          >
+            <v-icon start>mdi-email-send</v-icon>
+            Resend Verification Email
+          </v-btn>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
-
-<style scoped>
-.h-90vh {
-  min-height: 90vh;
-}
-</style>

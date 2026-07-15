@@ -19,37 +19,48 @@ const submitTask = () => {
 </script>
 
 <template>
-  <v-divider class="mb-6" color="rgba(255,255,255,0.1)" />
-  <div v-if="!loggedIn" type="info" class="mb-6" colored-border>
-    <p class="text-h6 font-weight-bold text-light">please login first!</p>
+  <v-divider class="mb-6" color="#333333" />
+
+  <div
+    v-if="!loggedIn"
+    class="pa-4 mb-6 rounded-lg text-center"
+    color="#2d2d2d"
+    style="background-color: #2d2d2d; border: 1px solid #444444"
+  >
+    <p class="text-h6 font-weight-bold text-white">Please login first!</p>
+    <v-btn color="primary" variant="elevated" class="mt-2" to="/auth/login">
+      Go to Login
+    </v-btn>
   </div>
+
   <v-card-text v-else>
-    <v-form @submit.prevent="submitTask" class="d-flex flex-column gap-5">
+    <v-form @submit.prevent="submitTask" class="d-flex flex-column ga-4">
       <v-text-field
         v-model="newTask.title"
         label="Task Title"
-        class="glass-input mb-3"
         variant="outlined"
         density="comfortable"
         prepend-inner-icon="mdi-format-title"
         hide-details="auto"
         required
+        bg-color="#2d2d2d"
+        color="primary"
       />
 
       <v-textarea
         v-model="newTask.desc"
         label="Task Description"
-        class="glass-input"
         variant="outlined"
         density="comfortable"
         auto-grow
         prepend-inner-icon="mdi-text"
+        bg-color="#2d2d2d"
+        color="primary"
       />
 
       <v-select
         v-model="newTask.priority"
         label="Priority"
-        class="glass-input"
         variant="outlined"
         density="comfortable"
         :items="[
@@ -62,11 +73,19 @@ const submitTask = () => {
         prepend-inner-icon="mdi-flag-outline"
         center-affix
         hide-details="auto"
-        :menu-props="{ theme: 'dark' }"
-      >
-      </v-select>
+        bg-color="#2d2d2d"
+        color="primary"
+        base-color="#666666"
+      />
 
-      <v-btn color="transparent" type="submit" class="glass-btn mt-4" block>
+      <v-btn
+        color="primary"
+        type="submit"
+        variant="elevated"
+        size="large"
+        block
+        class="mt-2"
+      >
         <v-icon start>mdi-plus</v-icon>
         Create Task
       </v-btn>

@@ -5,47 +5,47 @@ import * as directives from "vuetify/directives";
 import { defineNuxtPlugin } from "nuxt/app";
 import "@mdi/font/css/materialdesignicons.css";
 
-const lightTheme: ThemeDefinition = {
-  dark: false,
+const darkTheme: ThemeDefinition = {
+  dark: true,
   colors: {
-    // 🌈 Primary System
-    primary: "#3B82F6", // Blue 500
-    primaryLight: "#60A5FA", // Blue 400
-    primaryDark: "#1E40AF", // Blue 900
-    secondary: "#64748B", // Slate 500
-    accent: "#A855F7", // Purple accent
+    // 🌈 Primary System - Elegant Purple/Blue gradient
+    primary: "#7C3AED", // Violet 600
+    primaryLight: "#A78BFA", // Violet 400
+    primaryDark: "#4C1D95", // Violet 900
+    secondary: "#6B7280", // Gray 500
+    accent: "#EC4899", // Pink 500
 
-    // ✅ State Colors
+    // ✅ State Colors - Muted but vibrant
     success: "#10B981", // Emerald 500
-    info: "#38BDF8", // Sky 400
-    warning: "#FBBF24", // Amber 400
+    info: "#3B82F6", // Blue 500
+    warning: "#F59E0B", // Amber 500
     error: "#EF4444", // Red 500
 
-    // ⚙️ Neutral Grays (for surfaces & text)
-    white: "#FFFFFF",
-    black: "#0F172A", // Very dark navy-black
-    gray50: "#F9FAFB",
-    gray100: "#F3F4F6",
-    gray200: "#E5E7EB",
-    gray300: "#D1D5DB",
-    gray400: "#9CA3AF",
-    gray500: "#6B7280",
-    gray600: "#4B5563",
-    gray700: "#374151",
-    gray800: "#1F2937",
-    gray900: "#111827",
+    // ⚙️ Neutral Grays (for surfaces & text) - Smooth dark transition
+    white: "#F3F4F6", // Off-white for text
+    black: "#0F0F0F", // Pure dark
+    gray50: "#1A1A1A",
+    gray100: "#242424",
+    gray200: "#2D2D2D",
+    gray300: "#3D3D3D",
+    gray400: "#555555",
+    gray500: "#777777",
+    gray600: "#999999",
+    gray700: "#BBBBBB",
+    gray800: "#DDDDDD",
+    gray900: "#F3F4F6",
 
-    // 🧊 Backgrounds
-    surface: "#F8FAFC", // Very light gray-blue surface
-    background: "#EEF2F7", // Default app background
-    cardBg: "rgba(255, 255, 255, 0.15)", // Glass card backgrounds
-    border: "rgba(255, 255, 255, 0.25)", // Subtle borders
+    // 🧊 Backgrounds - Smooth dark surfaces
+    surface: "#1A1A1A", // Card backgrounds
+    background: "#0F0F0F", // Main app background
+    cardBg: "#1E1E1E", // Card background
+    border: "#2D2D2D", // Subtle borders
 
     // 💬 Custom use cases
-    heading: "#1E293B",
-    body: "#334155",
-    inputBg: "rgba(255, 255, 255, 0.25)",
-    overlay: "rgba(15, 23, 42, 0.6)", // dark glass overlay
+    heading: "#F3F4F6",
+    body: "#D1D5DB",
+    inputBg: "#242424",
+    overlay: "rgba(0, 0, 0, 0.7)", // Dark overlay
   },
 };
 
@@ -56,9 +56,9 @@ export default defineNuxtPlugin((app) => {
     },
     ssr: true,
     theme: {
-      defaultTheme: "lightTheme",
+      defaultTheme: "darkTheme",
       themes: {
-        lightTheme,
+        darkTheme,
       },
     },
     components,
