@@ -3,6 +3,7 @@ import { ref } from "vue";
 import type { Task } from "~/types/TaskTypes";
 
 const taskService = useTaskService();
+const auth = useAuthUser();
 
 const loading = ref(false);
 const error = ref("");
@@ -158,6 +159,7 @@ const getPriorityLabel = (priority: number) => {
 
         <template v-slot:append>
           <v-select
+            :disabled="!auth.loggedIn || task.User.id !== auth.user?.id"
             v-model="task.status"
             :items="['Todo', 'Doing', 'ToReview', 'Done', 'Canceled']"
             label="Status"

@@ -1,14 +1,10 @@
-<script lang="ts" setup>
-import { useDisplay } from "vuetify";
+<script setup lang="ts">
 import { ref, watch, computed } from "vue";
+import { useDisplay } from "vuetify";
 
 const props = defineProps<{
   modelValue: boolean;
   title?: string;
-  width?: string;
-  color?: string;
-  maxWidth?: string;
-  icon?: { dark: string; light: string };
 }>();
 
 const emit = defineEmits<{
@@ -19,7 +15,7 @@ const dialogModel = ref(props.modelValue);
 
 watch(
   () => props.modelValue,
-  (val) => (dialogModel.value = val)
+  (val) => (dialogModel.value = val),
 );
 watch(dialogModel, (val) => emit("update:modelValue", val));
 
@@ -30,90 +26,76 @@ const isMobile = computed(() => display.mdAndDown.value);
 <template>
   <v-dialog
     v-model="dialogModel"
-    :max-width="maxWidth || '700px'"
+    max-width="700px"
     :fullscreen="isMobile"
     :hide-overlay="isMobile"
     transition="dialog-bottom-transition"
   >
-    <div :class="isMobile ? 'dialog-wrapper' : ''">
-      <v-card
-        class="pa-6 rounded-16 glass-card"
-        :class="isMobile ? 'bottom-card' : ''"
-        color="transparent"
-        elevation="0"
-      >
-        <!-- Header -->
-        <div class="d-flex align-center justify-space-between">
-          <div class="d-flex align-center justify-start">
-            <span
-              class="dialog-title mx-2 text-light"
-              v-html="props.title"
-            ></span>
-          </div>
+    <v-card
+      color="#1a1a1a"
+      class="pa-6"
+      elevation="0"
+      rounded="lg"
+      border
+      :class="isMobile ? 'bottom-card' : ''"
+    >
+      <!-- Header -->
+      <v-card-title class="text-h6 font-weight-bold text-white mb-4">
+        <v-icon start color="primary">mdi-dialog</v-icon>
+        {{ title || "Dialog" }}
+      </v-card-title>
 
-          <v-icon
-            color="rgba(255,255,255,0.65)"
-            class="cursor-pointer"
-            @click="dialogModel = false"
-          >
-            mdi-close
-          </v-icon>
-        </div>
+      <v-divider color="#333" class="mb-4" />
 
-        <!-- Divider -->
-        <v-divider class="my-4" color="rgba(255,255,255,0.2)" />
+      <!-- Content -->
+      <v-card-text>
+        <slot />
+      </v-card-text>
 
-        <!-- Content -->
-        <div class="dialog-content">
-          <slot />
-        </div>
-      </v-card>
-    </div>
+      <!-- Close button -->
+      <v-card-actions class="pt-4">
+        <v-spacer />
+        <v-btn
+          color="grey-darken-3"
+          variant="outlined"
+          @click="dialogModel = false"
+          class="text-white"
+        >
+          Close
+        </v-btn>
+      </v-card-actions>
+    </v-card>
   </v-dialog>
 </template>
 
 <style scoped>
-.dialog-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin-bottom: 16px;
-}
-
 .bottom-card {
+  margin: 0 auto;
   width: 90%;
   max-width: 700px;
-  margin: 0 auto;
-  padding: 32px;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
-/* Typography */
-.dialog-title {
-  font-size: 18px;
-  font-weight: 600;
+.text-white {
+  color: #ffffff !important;
 }
 
-/* Content Area */
-.dialog-content {
-  margin-top: 12px;
+:deep(.v-card) {
+  background: #1a1a1a !important;
+  border-color: #333 !important;
 }
 
-/* Optional fade-in animation for glass effect */
-.glass-card {
-  animation: fadeInGlass 0.4s ease-in-out;
+:deep(.v-divider) {
+  border-color: #333 !important;
 }
 
-@keyframes fadeInGlass {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+:deep(.v-btn--variant-outlined) {
+  border-color: #333 !important;
+}
+
+:deep(.v-btn--variant-outlined:hover) {
+  background: rgba(124, 58, 237, 0.1) !important;
+  border-color: #7c3aed !important;
 }
 </style>

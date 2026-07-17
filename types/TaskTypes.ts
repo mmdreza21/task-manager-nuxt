@@ -1,4 +1,4 @@
-import type { UserSignDTO } from "./UserTypes";
+import type { UserType } from "./UserTypes";
 
 export interface Task {
   id: string;
@@ -6,7 +6,7 @@ export interface Task {
   desc?: string;
   priority: number;
   status: "Todo" | "Doing" | "ToReview" | "Done" | "Canceled";
-  User: UserSignDTO
+  User: UserType
   createdAt: string;
   doneAt?: string;
 }

@@ -40,7 +40,7 @@ const sendMessage = () => {
     },
     (err) => {
       loading.value = false;
-      error.value = "Stream error";
+      error.value = err.data;
       console.error(err);
     },
   );
