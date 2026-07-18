@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useChatService } from "~/composables/useChatService";
+import { ref, computed } from "vue";
+import { useChatService, type ChatMessage } from "~/composables/useChatService";
 import { useCookie } from "#app";
 
 const messageText = ref("");
@@ -9,21 +9,47 @@ const chat = useChatService(token.value || "");
 
 const { messages, sendMessage, userCount, connect } = chat;
 
+const isLoggedIn = useAuthUser().loggedIn;
+
+const { data: chatHistory } = await useAsyncData<ChatMessage[]>(
+  "chat-messages",
+  () => useNuxtApp().$customFetch("/chat/messages"),
+);
+
+if (chatHistory.value) {
+  messages.value = chatHistory.value;
+}
+
 // ✅ Wrapper to prevent sending events instead of strings
 const sendMessageWrapper = () => {
-  if (!messageText.value.trim()) return;
+  if (!messageText.value.trim() || !isLoggedIn) return;
   sendMessage(messageText.value);
   messageText.value = "";
 };
 
 onMounted(() => {
-  connect();
+  if (isLoggedIn) {
+    connect();
+  }
 });
 </script>
 
 <template>
   <v-container fluid class="fill-height pa-0">
     <v-row no-gutters class="fill-height">
+      <v-alert
+        v-if="!isLoggedIn"
+        type="warning"
+        variant="tonal"
+        density="compact"
+        class="ma-3"
+        border="start"
+        border-color="warning"
+      >
+        <div class="d-flex align-center">
+          <span class="text-body-2">Please login to use the chat</span>
+        </div>
+      </v-alert>
       <v-col cols="12" class="d-flex align-center justify-center">
         <v-card
           color="#1a1a1a"
@@ -90,6 +116,7 @@ onMounted(() => {
               bg-color="#242424"
               color="primary"
               base-color="#555"
+              :disabled="!isLoggedIn"
               @keyup.enter="sendMessageWrapper"
             >
               <template v-slot:prepend-inner>
@@ -101,6 +128,7 @@ onMounted(() => {
               variant="elevated"
               icon
               class="ms-3"
+              :disabled="!isLoggedIn"
               @click="sendMessageWrapper"
             >
               <v-icon>mdi-send</v-icon>

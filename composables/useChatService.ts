@@ -3,7 +3,7 @@ import { ref, onUnmounted } from "vue";
 import { useNotification } from "./useNotification";
 import type { UserType } from "~/types/UserTypes";
 
-interface ChatMessage {
+export interface ChatMessage {
   from: Partial<UserType>;
   message: string;
 }
