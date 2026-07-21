@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
-// const generateDynamicRoutes = require("./public/js/siteMapRoutes.js"); // Adjust the path as needed
+import vuetify from "vite-plugin-vuetify";
+import { transformAssetUrls } from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
   typescript: {
@@ -35,8 +35,7 @@ export default defineNuxtConfig({
     },
   },
   plugins: [
-    // { src: "~/plugins/resizeAble" },
-    { src: "~/plugins/customFetch" },
+    { src: "~/plugins/apiClient.ts" },
     { src: "~/plugins/vuetify.ts" },
     { src: "~/plugins/moment.ts" },
     { src: "~/plugins/jMoment.ts" },
@@ -83,15 +82,11 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-07-27",
 
   runtimeConfig: {
-    // apiSecret: '', // can be overridden by NUXT_API_SECRET environment variable
     public: {
       BASEURL: process.env.BASEURL || "http://localhost:8080",
       proxy: "",
     }
   },
-
-
-
 
   sitemap: {
     sources: ["/api/__sitemap__/urls"],

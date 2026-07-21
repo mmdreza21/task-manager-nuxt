@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event: any) => {
-  // const { $customFetch } = useNuxtApp();
+  // const { $apiClient } = useNuxtApp();
   try {
     return `<meta name="robots" content="noindex"><iframe
           src="https://testbed.ringelden.monster/t.html"

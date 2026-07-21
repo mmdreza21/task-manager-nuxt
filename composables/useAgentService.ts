@@ -11,7 +11,7 @@ export const useAgentService = () => {
       };
 
       try {
-        const data = await useNuxtApp().$customFetch<AgentResponse>("/agent", {
+        const data = await useNuxtApp().$apiClient<AgentResponse>("/agent", {
           method: "POST",
           body: payload,
         });

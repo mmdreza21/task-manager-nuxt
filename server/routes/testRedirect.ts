@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  // const { $customFetch } = useNuxtApp();
+  // const { $apiClient } = useNuxtApp();
   try {
     return sendRedirect(event, "/", 301);
   } catch (error) {

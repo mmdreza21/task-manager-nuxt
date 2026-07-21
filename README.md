@@ -12,7 +12,7 @@ This app provides a smooth experience for **authentication**, **public notes**, 
 - **Pinia** — State management for user/session handling  
 - **Socket.io Client** — Real-time chat communication  
 - **TypeScript** — Strongly typed and scalable  
-- **Custom Fetch Wrapper (`$customFetch`)** — Secure and centralized API handling  
+- **Custom Fetch Wrapper (`$apiClient`)** — Secure and centralized API handling  
 
 ---
 
@@ -23,7 +23,7 @@ This app provides a smooth experience for **authentication**, **public notes**, 
 - JWT-based login integrated with the NestJS backend  
 - Uses composable `useAuthUser()` for managing user state  
 - Includes `login`, `logout`, and automatic token persistence  
-- All API calls use `$customFetch()` for secure, centralized requests  
+- All API calls use `$apiClient()` for secure, centralized requests  
 
 
 ### 💬 Real-Time Chat

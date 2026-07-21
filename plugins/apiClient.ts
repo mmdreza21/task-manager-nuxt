@@ -1,30 +1,28 @@
+// plugins/$apiClient.ts
+import type { $Fetch } from 'ofetch';
+
 export default defineNuxtPlugin({
-  // Use the 'Authorization' cookie
   parallel: true,
   setup(nuxtApp) {
     const token = useCookie("Authorization");
-
     const config = useRuntimeConfig();
 
     // Create a custom fetch instance
-    const customFetch = $fetch.create({
-      // baseURL: "https://api.cycfx.com/api",
+    const apiClient = $fetch.create({
       baseURL: `${config.public.BASEURL}/api`,
       onRequest({ options }) {
         // Set authorization header if the token is available
+        const headers: Record<string, string> = {
+          //@ts-ignore
+          ...options.headers as Record<string, string>,
+        };
+
         if (token.value) {
-          options.headers = {
-            ...options.headers,
-            //@ts-ignore
-            Authorization: `${token.value}` || "mamad",
-          };
-        } else {
-          options.headers = {
-            ...options.headers,
-            //@ts-ignore
-            mmd: "sad", // Default header if no token is present
-          };
+          headers.Authorization = token.value;
         }
+        //@ts-ignore
+
+        options.headers = headers;
       },
 
       onResponse({ response }) {
@@ -34,14 +32,15 @@ export default defineNuxtPlugin({
 
       onResponseError({ response }) {
         // Handle response errors
-        throw new Error(response._data.message as string);
+        const message = (response._data as any)?.message || 'An error occurred';
+        throw new Error(message);
       },
     });
 
-    // Expose customFetch to the app
+    // Expose $apiClient to the app
     return {
       provide: {
-        customFetch,
+        apiClient, // Provide as apiClient, not $apiClient
       },
     };
   },

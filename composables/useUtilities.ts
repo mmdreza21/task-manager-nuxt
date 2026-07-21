@@ -14,7 +14,8 @@ export const useUtilities = () => {
   }
 
   const menuItems: Ref<menuItems[]> = ref([
-    { title: "Task Manager", to: "/" },
+    { title: "Home", to: "/" },
+    { title: "Tasks", to: "/tasks" },
     { title: "Chat", to: "/chat" },
     { title: "AI Chat", to: "/ai" },
     { title: "My Unity Games", to: "/games" },

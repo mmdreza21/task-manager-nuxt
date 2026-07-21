@@ -55,3 +55,37 @@ export type AuthStoreType = {
 };
 
 export type userUpdateDto = Pick<UserType, "email" | "roles" | "name">;
+// types/user.ts
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: 'AdminOfSite' | 'User';
+  isEmailVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UserFilters {
+  search?: string;
+  role?: string;
+  isEmailVerified?: boolean;
+  page: number;
+  limit: number;
+  sortBy?: 'createdAt' | 'updatedAt' | 'name' | 'email';
+  sortOrder?: 'asc' | 'desc';
+}
+
+export interface PaginatedUserResponse {
+  data: User[];
+  items: number;
+  page: number;
+  totalPages: number;
+}
+
+export interface UserSelectOption {
+  id: string;
+  name: string;
+  email: string;
+}

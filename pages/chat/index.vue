@@ -13,7 +13,7 @@ const isLoggedIn = useAuthUser().loggedIn;
 
 const { data: chatHistory } = await useAsyncData<ChatMessage[]>(
   "chat-messages",
-  () => useNuxtApp().$customFetch("/chat/messages"),
+  () => useNuxtApp().$apiClient("/chat/messages"),
 );
 
 if (chatHistory.value) {

@@ -1,14 +1,14 @@
 import { useNotification } from "./useNotification";
 
 export const useUserService = () => {
-  const { $customFetch } = useNuxtApp();
+  const { $apiClient } = useNuxtApp();
   const config = useRuntimeConfig();
   const { fireNotification } = useNotification();
 
   class UserService {
     async sendVerification(email: string) {
       try {
-        return await $customFetch(`/users/send-verification`, {
+        return await $apiClient(`/users/send-verification`, {
           method: "POST",
           body: { email },
         });
@@ -23,7 +23,7 @@ export const useUserService = () => {
 
     async verifyEmail(token: string) {
       try {
-        return await $customFetch(`/users/verify?token=${token}`, {});
+        return await $apiClient(`/users/verify?token=${token}`, {});
       } catch (error: any) {
         fireNotification(
           error?.response?._data?.message || "Invalid OTP",
@@ -35,7 +35,7 @@ export const useUserService = () => {
 
     async register(payload: { name: string; email: string; password: string }) {
       try {
-        return await $customFetch(`/users`, {
+        return await $apiClient(`/users`, {
           method: "POST",
           body: payload,
         });
@@ -50,7 +50,7 @@ export const useUserService = () => {
 
     async changePassword(oldPassword: string, newPassword: string) {
       try {
-        return await $customFetch(`/users/change-password`, {
+        return await $apiClient(`/users/change-password`, {
           method: "POST",
           body: { oldPassword, newPassword },
         });
@@ -65,7 +65,7 @@ export const useUserService = () => {
 
     async forgotPassword(payload: { email: string }) {
       try {
-        return await $customFetch(`/users/forgot-password`, {
+        return await $apiClient(`/users/forgot-password`, {
           method: "POST",
           body: payload,
         });
@@ -80,7 +80,7 @@ export const useUserService = () => {
 
     async resetPassword(payload: { otp: string; newPassword: string }) {
       try {
-        return await $customFetch(`/users/reset-password`, {
+        return await $apiClient(`/users/reset-password`, {
           method: "POST",
           body: payload,
         });
@@ -95,7 +95,7 @@ export const useUserService = () => {
 
     async getProfile() {
       try {
-        return await $customFetch(`/users/profile`, {
+        return await $apiClient(`/users/profile`, {
           method: "GET",
         });
       } catch (error: any) {
@@ -106,7 +106,7 @@ export const useUserService = () => {
 
     async updateProfile(data: { name: string }) {
       try {
-        return await $customFetch(`/users`, {
+        return await $apiClient(`/users`, {
           method: "PATCH",
           body: data,
         });
@@ -117,7 +117,7 @@ export const useUserService = () => {
     }
     async reSendVerificationEmail(email: string) {
       try {
-        return await $customFetch(`/users/send-verification-email`, {
+        return await $apiClient(`/users/send-verification-email`, {
           method: "POST",
           body: { email },
         });

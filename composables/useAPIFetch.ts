@@ -6,6 +6,6 @@ export function useAPIFetch<T>(
 ) {
   return useFetch(url, {
     ...options,
-    $fetch: useNuxtApp().$customFetch,
+    $fetch: useNuxtApp().$apiClient,
   });
 }

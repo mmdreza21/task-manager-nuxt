@@ -38,7 +38,7 @@ export const useAuthService = () => {
     maxAge: 31536000,
   });
 
-  const { $customFetch } = useNuxtApp();
+  const { $apiClient } = useNuxtApp();
   const { fireNotification } = useNotification();
 
   class AuthService {
@@ -53,7 +53,7 @@ export const useAuthService = () => {
 
       try {
         // "Accio User Data!" - Fetching the user details from the backend
-        const data = await $customFetch<UserType>("/auth/me", {
+        const data = await $apiClient<UserType>("/auth/me", {
           method: "GET",
         });
 
@@ -74,7 +74,7 @@ export const useAuthService = () => {
       credentials: UserLoginDTO
     ): Promise<SuccessLogin | null | undefined> {
       try {
-        return await $customFetch<SuccessLogin | null | undefined>(
+        return await $apiClient<SuccessLogin | null | undefined>(
           "/auth/login",
           {
             method: "POST",
@@ -90,7 +90,7 @@ export const useAuthService = () => {
     async sendOtp(
       credentials: SendOtpDTO
     ): Promise<SuccessLogin | null | undefined> {
-      return await $customFetch<SuccessLogin | null | undefined>("/auth/otp", {
+      return await $apiClient<SuccessLogin | null | undefined>("/auth/otp", {
         method: "POST",
         body: credentials,
       });
@@ -100,7 +100,7 @@ export const useAuthService = () => {
     async loginWithOtp(
       credentials: UserOtpLoginDTO
     ): Promise<SuccessLogin | null | undefined> {
-      return await $customFetch<SuccessLogin | null | undefined>(
+      return await $apiClient<SuccessLogin | null | undefined>(
         "/verify-otp",
         {
           method: "POST",
@@ -114,7 +114,7 @@ export const useAuthService = () => {
       credentials: UserSignDTO
     ): Promise<signUpResponse | null | undefined> {
       try {
-        const res = await $customFetch<signUpResponse | null | undefined>(
+        const res = await $apiClient<signUpResponse | null | undefined>(
           "/users",
           { method: "POST", body: credentials }
         );
@@ -129,7 +129,7 @@ export const useAuthService = () => {
     async forgetPassword(
       credentials: SendOtpDTO
     ): Promise<SuccessLogin | null | undefined> {
-      return await $customFetch<SuccessLogin | null | undefined>(
+      return await $apiClient<SuccessLogin | null | undefined>(
         "/forgot-password",
         {
           method: "POST",
@@ -141,7 +141,7 @@ export const useAuthService = () => {
     async resetPassword(
       credentials: UserOtpLoginDTO
     ): Promise<SuccessLogin | null | undefined> {
-      return await $customFetch<SuccessLogin | null | undefined>(
+      return await $apiClient<SuccessLogin | null | undefined>(
         "/reset-password",
         {
           method: "POST",
@@ -204,7 +204,7 @@ export const useAuthService = () => {
     }
 
     async updateUserInfo(data: userUpdateDto) {
-      const res = await $customFetch<{ message: string; user: UserType }>(
+      const res = await $apiClient<{ message: string; user: UserType }>(
         "/profile",
         {
           method: "PUT",
@@ -217,7 +217,7 @@ export const useAuthService = () => {
     }
 
     async verifyPhone(phone: string) {
-      const res = await $customFetch("/verifyPhone", {
+      const res = await $apiClient("/verifyPhone", {
         method: "POST",
         body: { phone },
       });
@@ -225,14 +225,14 @@ export const useAuthService = () => {
     }
 
     async getProfile() {
-      return await $customFetch("/users/profile", { method: "GET" });
+      return await $apiClient("/users/profile", { method: "GET" });
     }
 
     async changePassword(payload: {
       oldPassword: string;
       newPassword: string;
     }) {
-      return await $customFetch("/users/change-password", {
+      return await $apiClient("/users/change-password", {
         method: "POST",
         body: payload,
       });
